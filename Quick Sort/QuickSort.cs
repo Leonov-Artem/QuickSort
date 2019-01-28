@@ -9,28 +9,42 @@ namespace Quick_Sort
     class QuickSort<T> where T : IComparable
     {
         /*
-             * Median() 
              * RecursiveQuickSort()
-             * Partition()
         */
         private T[] array;
 
         public QuickSort(T[] array) => this.array = array;
 
+        private T GetPivot(int left, int right)
+        {
+            // опорный элемент определяется как медиана по трем точкам
+            int mid = (left + right) / 2;
+
+            if (array[left].CompareTo(array[mid]) > 0)      Swap(left, mid);
+            if (array[left].CompareTo(array[right]) > 0)    Swap(left, right);
+            if (array[mid].CompareTo(array[right]) > 0)     Swap(mid, right);
+
+            Swap(mid, right - 1);       // размещаем медиану на правом краю (чтобы ее не проверять в Partition)
+            return array[right - 1];    // возвращаем медиану
+        }
         private int Partition(int left, int right, int pivot)
         {
             int left_pointer = left;
-            int right_poinert = right - 1;
+            int right_pointer = right - 1;
 
             while (true)
             {
+                // так как опорный элемент определялся как медиана по трем точкам,
+                // то нет необходимости добавлять доп. проверки выхода за границы для left_pointer и right_pointer,
+                // так как left и right заведомо стоят на верный позициях
+
                 // ищем максимальный элемент
                 while (array[++left_pointer].CompareTo(pivot) < 0) ;
                 // ищем минимальный элемент 
-                while (array[--right_poinert].CompareTo(pivot) > 0) ;
+                while (array[--right_pointer].CompareTo(pivot) > 0) ;
 
-                if (left_pointer >= right) break;
-                else Swap(left_pointer, right_poinert);
+                if (left_pointer >= right_pointer) break;
+                else Swap(left_pointer, right_pointer);
             }
 
             Swap(left_pointer, right - 1);      // ставим опорный элемент на исходную позицию 
