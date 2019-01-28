@@ -18,6 +18,11 @@ namespace Quick_Sort
 
         public QuickSort(T[] array) => this.array = array;
 
-
+        private void Swap(int first, int second)
+        {
+            T temp = array[first];
+            array[first] = array[second];
+            array[second] = temp;
+        }
     }
 }
