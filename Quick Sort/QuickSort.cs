@@ -9,7 +9,7 @@ namespace Quick_Sort
     class QuickSort<T> where T : IComparable
     {
         /*
-             * InsertionSort()
+             * Median() 
              * RecursiveQuickSort()
              * Partition()
         */
@@ -17,6 +17,25 @@ namespace Quick_Sort
 
         public QuickSort(T[] array) => this.array = array;
 
+        private int Partition(int left, int right, int pivot)
+        {
+            int left_pointer = left;
+            int right_poinert = right - 1;
+
+            while (true)
+            {
+                // ищем максимальный элемент
+                while (array[++left_pointer].CompareTo(pivot) < 0) ;
+                // ищем минимальный элемент 
+                while (array[--right_poinert].CompareTo(pivot) > 0) ;
+
+                if (left_pointer >= right) break;
+                else Swap(left_pointer, right_poinert);
+            }
+
+            Swap(left_pointer, right - 1);      // ставим опорный элемент на исходную позицию 
+            return left_pointer;                // возврат позиции опорного элемента
+        }
         private void InsertionSort(int left, int right)
         {
             for (int i = left + 1; i <= right; i++)
