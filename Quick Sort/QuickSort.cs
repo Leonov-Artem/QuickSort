@@ -6,15 +6,26 @@ using System.Threading.Tasks;
 
 namespace Quick_Sort
 {
-    class QuickSort<T> where T : IComparable
+    class QuickSorting<T> where T : IComparable
     {
         /*
              * RecursiveQuickSort()
         */
         private T[] array;
 
-        public QuickSort(T[] array) => this.array = array;
+        public QuickSorting(T[] array) => this.array = array;
 
+        public void QuickSort() => RecursiveQuickSort(0, array.Length - 1);
+        private void RecursiveQuickSort(int left, int right)
+        {
+            if (right - left + 1 < 10) InsertionSort(left, right);
+            else
+            {
+                int partition = Partition(left, right, GetPivot(left, right));
+                RecursiveQuickSort(left, partition - 1);
+                RecursiveQuickSort(partition + 1, right);
+            }
+        }
         private T GetPivot(int left, int right)
         {
             // опорный элемент определяется как медиана по трем точкам
@@ -27,7 +38,7 @@ namespace Quick_Sort
             Swap(mid, right - 1);       // размещаем медиану на правом краю (чтобы ее не проверять в Partition)
             return array[right - 1];    // возвращаем медиану
         }
-        private int Partition(int left, int right, int pivot)
+        private int Partition(int left, int right, T pivot)
         {
             int left_pointer = left;
             int right_pointer = right - 1;
